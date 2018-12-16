@@ -1,31 +1,35 @@
 from .Emoji import Emoji
-from .Connection import Connection
+from .database import Database
 
 
 class Message:
     @staticmethod
     def insert(message):
-        conn = Connection.get()
+        conn = Database.connect()
         cursor = conn.cursor()
 
         cursor.execute(
-            'INSERT INTO `messages` (`discord_id`, `author`, `channel`, `content`, `created_at`) VALUES (?, ?, ?, ?, ?)',
-            [
+            'INSERT INTO messages '
+            '(discord_id, author, channel, content, created_at) '
+            'VALUES (%s, %s, %s, %s, %s) RETURNING id',
+            (
                 message.id,
                 message.author.id,
                 message.channel.name,
                 message.content,
                 message.created_at.strftime('%Y-%m-%d %H:%M:%S')
-            ]
+            )
         )
 
         conn.commit()
+        inserted_id = cursor.fetchone()
+        cursor.close()
 
-        return cursor.lastrowid
+        return inserted_id
 
     @staticmethod
     def insert_emojies(message_id, emojies):
-        conn = Connection.get()
+        conn = Database.connect()
         cursor = conn.cursor()
 
         for emoji in emojies:
@@ -36,8 +40,9 @@ class Message:
                 id = Emoji.get_id(emoji)
 
             cursor.execute(
-                'INSERT INTO `emoji_messages` (`message_id`, `emoji_id`) VALUES (?, ?)',
-                [message_id, id]
+                'INSERT INTO emoji_messages (message_id, emoji_id) VALUES (%s, %s)',
+                (message_id, id)
             )
 
         conn.commit()
+        cursor.close()
