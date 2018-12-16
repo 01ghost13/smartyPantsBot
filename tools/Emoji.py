@@ -21,7 +21,7 @@ class Emoji:
         conn = Database.connect()
         cursor = conn.cursor()
 
-        cursor.execute('SELECT * FROM emojies WHERE discord_id = %s', (emoji['id']))
+        cursor.execute('SELECT * FROM emojies WHERE discord_id = %s', (emoji['id'],))
 
         result = cursor.fetchmany(1)
 
