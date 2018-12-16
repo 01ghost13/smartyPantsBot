@@ -28,8 +28,7 @@ def change():
                     CREATE TABLE emoji_messages (
                         id          BIGSERIAL PRIMARY KEY,
                         message_id  INTEGER,
-                        emoji_id    TEXT,
-                        emoji_name  TEXT
+                        emoji_id    TEXT
                     )
                     """)
 
