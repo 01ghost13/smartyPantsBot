@@ -27,6 +27,19 @@ async def help(ctx):
     """)
 
 
+@bot.command()
+async def vk_sticker(ctx, id=0):
+    if not id:
+        id = random.randint(1, 10451)
+
+    await ctx.message.delete()
+
+    embed = discord.Embed()
+    embed.set_image(url='https://vk.com/images/stickers/' + str(id) + '/512.png')
+
+    await ctx.send('', embed=embed)
+
+
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
