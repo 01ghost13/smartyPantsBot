@@ -1,26 +1,27 @@
 import re
-from .Connection import Connection
+from .database import Database
 
 
 class Emoji:
     @staticmethod
     def insert(emoji):
-        conn = Connection.get()
+        conn = Database.connect()
         cursor = conn.cursor()
 
         cursor.execute(
-            'INSERT INTO `emojies` (`discord_id`, `name`) VALUES (?, ?)',
-            [emoji['id'], emoji['name']]
+            'INSERT INTO emojies (discord_id, name) VALUES (%s, %s)',
+            (emoji['id'], emoji['name'])
         )
 
         conn.commit()
+        cursor.close()
 
     @staticmethod
     def get_id(emoji):
-        conn = Connection.get()
+        conn = Database.connect()
         cursor = conn.cursor()
 
-        cursor.execute('SELECT * FROM `emojies` WHERE `discord_id` = ?', [emoji['id']])
+        cursor.execute('SELECT * FROM emojies WHERE discord_id = %s', (emoji['id']))
 
         result = cursor.fetchmany(1)
 
