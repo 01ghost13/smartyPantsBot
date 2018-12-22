@@ -10,12 +10,13 @@ class Message:
 
         cursor.execute(
             'INSERT INTO messages '
-            '(discord_id, author, channel, content, created_at) '
-            'VALUES (%s, %s, %s, %s, %s) RETURNING id',
+            '(discord_id, author, channel, channel_id, content, created_at) '
+            'VALUES (%s, %s, %s, %s, %s, %s) RETURNING id',
             (
                 message.id,
                 message.author.id,
                 message.channel.name,
+                message.channel.id,
                 message.content,
                 message.created_at.strftime('%Y-%m-%d %H:%M:%S')
             )
