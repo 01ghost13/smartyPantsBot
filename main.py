@@ -47,7 +47,10 @@ async def vk_sticker(ctx, id=0):
 async def show_stat(ctx):
     rows = Statistic.smile_count(ctx.message.channel.id)
     smiles = list(map(lambda row: "<:%s:%s> — %s" % row, rows))
-    await ctx.send("\n".join(smiles))
+    header = "Статистика использования кастомных смайлов: \n"
+    if len(smiles) == 0:
+        smiles = "Информации нет ¯\_(ツ)_/¯"
+    await ctx.send(header + "\n".join(smiles))
 
 
 @bot.event
