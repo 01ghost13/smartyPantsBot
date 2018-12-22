@@ -40,7 +40,7 @@ async def vk_sticker(ctx, id=0):
     embed = discord.Embed()
     embed.set_image(url='https://vk.com/images/stickers/' + str(id) + '/512.png')
 
-    await ctx.send('', embed=embed)
+    await ctx.send("Стикер отослан: %s" % ctx.message.author, embed=embed)
 
 
 @bot.command()
