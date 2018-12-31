@@ -16,7 +16,8 @@ class Statistic:
 
     @staticmethod
     def smile_count(channel_id):
-        conn = Database.connect()
-        cursor = conn.cursor()
-        cursor.execute(Statistic.smile_count_sql % channel_id)
-        return cursor.fetchall()
+        with Database() as db:
+            conn = db.connect()
+            cursor = conn.cursor()
+            cursor.execute(Statistic.smile_count_sql % channel_id)
+            return cursor.fetchall()
