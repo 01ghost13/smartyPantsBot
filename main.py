@@ -5,6 +5,7 @@ import discord
 from tools import Message
 from tools import Emoji
 from tools import Statistic
+from tools import Joker
 
 from discord.ext import commands
 
@@ -64,6 +65,9 @@ async def on_message(message):
 
     if emojies:
         Message.insert_emojies(id, emojies)
+
+    if Joker.wants_joke(message.content):
+        await Joker.joke(message.channel)
 
     await bot.process_commands(message)
 
