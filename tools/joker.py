@@ -33,7 +33,9 @@ class Joker:
         joke = str(joke_list.find('div', {'class': 'quote__body'})).replace('<br/>', '\n')
 
         # костыляка
-        joke = joke.replace('<div class="quote__body">', '').replace('</div>', '').replace('&lt;', '<').replace('&gt;', '>')
+        joke = joke.replace('<div class="quote__body">', '').replace('</div>', '')
+        joke = joke.replace('&lt;', '<').replace('&gt;', '>')
+        joke = joke.strip(' \t\v\r\n')
 
         await ctx.send(f'```{joke}```')
 
