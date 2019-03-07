@@ -27,12 +27,12 @@ class Joker:
         response = requests.post(url=Joker._source)
 
         soup = BeautifulSoup(response.text, 'html.parser')
-        joke_list = soup.find('div', {'class': 'quote'})
+        joke_list = soup.find('article', {'class': 'quote'})
 
-        joke = str(joke_list.find('div', {'class': 'text'})).replace('<br/>', '\n')
+        joke = str(joke_list.find('div', {'class': 'quote__body'})).replace('<br/>', '\n')
 
         # костыляка
-        joke = joke.replace('<div class="text">', '').replace('</div>', '').replace('&lt;', '<').replace('&gt;', '>')
+        joke = joke.replace('<div class="quote__body">', '').replace('</div>', '').replace('&lt;', '<').replace('&gt;', '>')
 
         await ctx.send(f'```{joke}```')
 
