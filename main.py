@@ -49,9 +49,11 @@ async def show_stat(ctx):
     rows = Statistic.smile_count(ctx.message.channel.id)
     smiles = list(map(lambda row: "<:%s:%s> — %s" % row, rows))
     header = "Статистика использования кастомных смайлов: \n"
-    if len(smiles) == 0:
-        smiles = "Информации нет ¯\_(ツ)_/¯"
-    await ctx.send(header + "\n".join(smiles))
+    message = "Информации нет ¯\_(ツ)_/¯"
+    if len(smiles) != 0:
+        message = header + "\n".join(smiles)
+
+    await ctx.send(message)
 
 
 @bot.event
