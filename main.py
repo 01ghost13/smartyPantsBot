@@ -47,7 +47,21 @@ async def vk_sticker(ctx, id=0):
 @bot.command()
 async def show_stat(ctx):
     rows = Statistic.smile_count(ctx.message.channel.id)
-    smiles = list(map(lambda row: "<:%s:%s> — %s" % row, rows))
+    owned_emojies = ctx.message.guild.emojis
+    smiles_to_print = []
+    template = "<:%s:%s> — %s"
+
+    for emoji in owned_emojies:
+        smile_to_add = template % (emoji.name, emoji.id, 0)
+
+        for row in rows:
+            if row[1] == str(emoji.id):
+                smile_to_add = row
+
+        smiles_to_print.append(smile_to_add)
+
+    sorted_smiles = sorted(smiles_to_print, key=lambda x: x[2], reverse=True)
+    smiles = list(map(lambda emoji: template % emoji, sorted_smiles))
     header = "Статистика использования кастомных смайлов: \n"
     message = "Информации нет ¯\_(ツ)_/¯"
     if len(smiles) != 0:
