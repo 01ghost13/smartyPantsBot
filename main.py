@@ -52,13 +52,10 @@ async def show_stat(ctx):
     template = "<:%s:%s> — %s"
 
     for emoji in owned_emojies:
-        smile_to_add = template % (emoji.name, emoji.id, 0)
 
         for row in rows:
             if row[1] == str(emoji.id):
-                smile_to_add = row
-
-        smiles_to_print.append(smile_to_add)
+                smiles_to_print.append(row)
 
     sorted_smiles = sorted(smiles_to_print, key=lambda x: x[2], reverse=True)
     smiles = list(map(lambda emoji: template % emoji, sorted_smiles))
